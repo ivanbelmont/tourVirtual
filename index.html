@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tour Virtual - Mi Casa</title>
+  <link rel="stylesheet" href="https://cdn.pannellum.org/2.5/pannellum.css"/>
+  <script src="https://cdn.pannellum.org/2.5/pannellum.js"></script>
+  <style>
+    #panorama {
+      width: 100%;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <style>
+  .pnlm-hotspot {
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid #007bff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .pnlm-hotspot:hover {
+    background: #007bff;
+    transform: scale(1.2);
+  }
+  
+  .pnlm-hotspot.pnlm-info {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23007bff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>') no-repeat center;
+    background-size: contain;
+  }
+  
+  /* Tooltip personalizado */
+  .pnlm-tooltip {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+  <div id="panorama"></div>
+  
+  <script>
+    pannellum.viewer('panorama', {
+
+      "default": {
+        "firstScene": "sala",
+        "author": "Tu Nombre",
+        "sceneFadeDuration": 1000, // Transición de 1 segundo
+        "autoLoad": true,
+        "showControls": true,
+        "showZoomCtrl": true,
+        "keyboardZoom": true,
+        "mouseZoom": true,
+        "draggable": true,
+        "disableKeyboardCtrl": false
+      },
+      
+      "scenes": {
+        "sala": {
+          "title": "Sala de Estar",
+          "panorama": "img/sala.jpg",
+          "hotSpots": [
+            {
+              "pitch": -10,
+              "yaw": 120,
+              "type": "scene",
+              "text": "Ir a Cocina",
+              "sceneId": "cocina",
+              "createTooltipFunc": hotspot,
+              "createTooltipArgs": "cocina"
+            },
+            {
+              "pitch": -5,
+              "yaw": -90,
+              "type": "scene",
+              "text": "Ir a Recámara",
+              "sceneId": "recamara",
+              "createTooltipFunc": hotspot,
+              "createTooltipArgs": "recamara"
+            }
+          ]
+        },
+        
+        "cocina": {
+          "title": "Cocina",
+          "panorama": "img/cocina.jpg",
+          "hotSpots": [
+            {
+              "pitch": -10,
+              "yaw": 300,
+              "type": "scene",
+              "text": "Volver a Sala",
+              "sceneId": "sala",
+              "createTooltipFunc": hotspot,
+              "createTooltipArgs": "sala"
+            },
+            {
+              "pitch": -8,
+              "yaw": 45,
+              "type": "scene",
+              "text": "Ir a Baño",
+              "sceneId": "bano",
+              "createTooltipFunc": hotspot,
+              "createTooltipArgs": "bano"
+            }
+          ]
+        },
+        
+        "recamara": {
+          "title": "Recámara Principal",
+          "panorama": "img/recamara.jpg",
+          "hotSpots": [
+            {
+              "pitch": -10,
+              "yaw": 90,
+              "type": "scene",
+              "text": "Volver a Sala",
+              "sceneId": "sala",
+              "createTooltipFunc": hotspot,
+              "createTooltipArgs": "sala"
+            }
+          ]
+        },
+        
+        "bano": {
+          "title": "Baño",
+          "panorama": "img/bano.jpg",
+          "hotSpots": [
+            {
+              "pitch": -10,
+              "yaw": 225,
+              "type": "scene",
+              "text": "Volver a Cocina",
+              "sceneId": "cocina",
+              "createTooltipFunc": hotspot,
+              "createTooltipArgs": "cocina"
+            }
+          ]
+        }
+      }
+    });
+    
+    // Función personalizada para tooltips
+    function hotspot(hotSpotDiv, args) {
+      hotSpotDiv.classList.add('custom-hotspot');
+      var span = document.createElement('span');
+      span.innerHTML = args;
+      hotSpotDiv.appendChild(span);
+    }
+
+  </script>
+</body>
+</html>
